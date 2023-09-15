@@ -1,0 +1,31 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata: 
+  name: single
+
+image: rancher/k3s:v1.28.1-k3s1
+
+servers: 1
+
+volumes: # repeatable flags are represented as YAML lists
+  - volume: var-lib-rancher-k3s-agent-containerd-0:/var/lib/rancher/k3s/agent/containerd
+    nodeFilters:
+      - server:0
+
+ports:
+  - port: 80:80
+    nodeFilters:
+      - loadbalancer
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
+  - port: 30000-30005:30000-30005
+    nodeFilters:
+      - server:*
+
+#options:
+#  k3s: # options passed on to K3s itself
+#    extraArgs: # additional arguments passed to the `k3s server|agent` command; same as `--k3s-arg`
+#      - arg: "--disable=traefik"
+#        nodeFilters:
+#          - server:*
