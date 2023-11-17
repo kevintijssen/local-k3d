@@ -1,8 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-namespace: argocd
-
-resources:
-- ns.yaml
-- git@github.com:ktijssen/k8s_argocd.git/kubernetes/overlays/k3d
