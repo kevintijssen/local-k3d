@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+  echo "Missing FQDN"
+  exit 1
+fi
+
+IP=$(dig +short $1 | tail -n1)
+
+hostName=$(echo $1 | cut -d '.' -f1)
+
+ssh-keygen -f "$HOME/.ssh/known_hosts" -R "$hostName" > /dev/null
+ssh-keygen -f "$HOME/.ssh/known_hosts" -R "$1" > /dev/null
+ssh-keygen -f "$HOME/.ssh/known_hosts" -R "$IP" > /dev/null
